@@ -10,7 +10,7 @@ https://drive.google.com/drive/folders/152ClGcH6XHNA40fqyk6eESE8FZZ_tMAK?usp=sha
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
-Fabriq ERP is a full-stack web application designed to be a centralized, user-friendly platform for managing the entire production process in a manufacturing unit. It replaces fragmented spreadsheets and manual tracking with a streamlined, role-based digital workflow.
+Fabriq ERP is a centralized, real-time inventory management web application that replaces manual registers, Excel sheets, and scattered tracking with a streamlined digital workflow for warehouse operations.
 
 This project was developed as part of a Masters program, showcasing a modern architecture for Enterprise Resource Planning (ERP) systems.
 
@@ -20,16 +20,16 @@ This project was developed as part of a Masters program, showcasing a modern arc
 
 ## Key Features
 
-* **Bill of Materials (BOM) Management:** Create detailed "recipes" for each product, listing all raw materials and the sequence of operations required.
-* **Manufacturing Orders (MO):** The core of the system. Create production orders that automatically calculate material requirements and generate sub-tasks based on the BOM.
-* **Work Order (WO) Tracking:** Break down MOs into actionable tasks (e.g., Assembly, Painting) that can be assigned and tracked on the shop floor.
-* **Real-Time Stock Ledger:** A complete inventory management system that automatically deducts raw materials (Stock Out) and adds finished goods (Stock In) as work is completed.
-* **Role-Based Access Control:** A secure system with pre-defined roles ensuring users only see what they need:
-    * **Admin:** Manages users and has system-wide oversight.
-    * **Inventory Manager:** Manages products, BOMs, and stock levels.
-    * **Manufacturing Manager:** Creates and monitors Manufacturing Orders.
-    * **Operator:** Executes assigned Work Orders on the shop floor.
-* **Analytics Dashboard:** High-level KPIs for business owners to track production efficiency and order fulfillment.
+- **Complete Product Management:** Create products with SKUs, categories, units of measure, and reordering rules
+- **Receipts (Incoming Stock):** Track vendor deliveries with automatic stock increases
+- **Delivery Orders (Outgoing Stock):** Manage customer shipments with pick/pack/validate workflow
+- **Internal Transfers:** Move stock between warehouses, racks, or locations with full audit trail
+- **Stock Adjustments:** Correct inventory mismatches from physical counts or damage
+- **Real-Time Dashboard:** KPIs showing stock levels, low stock alerts, pending operations
+- **Multi-Warehouse Support:** Track inventory across multiple locations
+- **Role-Based Access:** Secure access for Inventory Managers and Warehouse Staff
+- **Smart Search & Filters:** Filter by document type, status, warehouse, or product category
+
 
 ---
 
