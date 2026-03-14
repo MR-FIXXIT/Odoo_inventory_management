@@ -12,11 +12,6 @@ import random
 from datetime import timedelta
 from .models import CustomUser, OTP
 from .email import send_templated_email,send_password_reset_success_email
-try:
-    from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
-except Exception:
-    OutstandingToken = None
-    BlacklistedToken = None
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = s.CustomTokenObtainPairSerializer
@@ -166,13 +161,7 @@ class OTPRequestView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
-        user = serializer.get_user()
-
-        if not user:
-            return Response(
-                {"detail": "If a matching account was found, an OTP has been sent."},
-                status=status.HTTP_200_OK
-            )
+        user = serializer.user
         
         OTP.objects.filter(user=user).delete()
         
@@ -211,8 +200,15 @@ class PasswordResetConfirmView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        otp_instance = serializer.validated_data['otp_instance']
+        otp_code = serializer.validated_data['otp']
         new_password = serializer.validated_data['new_password']
+
+        otp_instance = OTP.objects.filter(user=user, otp_code=otp_code).first()
+        if not otp_instance or not otp_instance.is_valid():
+            return Response(
+                {"detail": "Invalid or expired OTP."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         user.set_password(new_password)
         user.password_last_changed = timezone.now()
@@ -220,12 +216,12 @@ class PasswordResetConfirmView(generics.GenericAPIView):
 
         otp_instance.delete()
         
-        if OutstandingToken and BlacklistedToken:
-            try:
-                for token in OutstandingToken.objects.filter(user=user):
-                    BlacklistedToken.objects.get_or_create(token=token)
-            except Exception:
-                pass
+        try:
+            outstanding_tokens = RefreshToken.objects.filter(user=user)
+            for token in outstanding_tokens:
+                token.blacklist()
+        except Exception:
+            pass
         send_password_reset_success_email(user)
         return Response(
             {"detail": "Password has been reset successfully. You can now log in with your new password."},
