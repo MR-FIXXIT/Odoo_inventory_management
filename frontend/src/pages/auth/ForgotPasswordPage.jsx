@@ -65,21 +65,26 @@ export default function ForgotPasswordPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      bgcolor: '#0A0E1A',
-      background: 'radial-gradient(ellipse at 20% 50%, rgba(108, 99, 255, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 50%, rgba(0, 217, 166, 0.06) 0%, transparent 50%), #0A0E1A',
+      bgcolor: '#F8F9FA', // Odoo light background
     }}>
       <Card sx={{
-        width: '100%', maxWidth: 460, mx: 2,
-        bgcolor: 'rgba(17, 24, 39, 0.8)', backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(108, 99, 255, 0.15)',
+        width: '100%',
+        maxWidth: 460,
+        mx: 2,
+        bgcolor: '#ffffff',
+        border: '1px solid #dee2e6',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+        borderRadius: 2
       }}>
         <CardContent sx={{ p: 4 }}>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
-            <FactoryIcon sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
-            <Typography variant="h5" fontWeight={800} sx={{
-              background: 'linear-gradient(135deg, #6C63FF, #00D9A6)',
-              backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>
+            <Box 
+              component="img"
+              src="/fabriq ERP.png"
+              alt="Fabriq ERP Logo"
+              sx={{ height: 60, mb: 1, objectFit: 'contain' }}
+            />
+            <Typography variant="h5" fontWeight={600} sx={{ color: '#212529', letterSpacing: 0.5 }}>
               Reset Password
             </Typography>
           </Box>
@@ -115,7 +120,7 @@ export default function ForgotPasswordPage() {
 
           <Typography variant="body2" color="text.secondary" textAlign="center" mt={3}>
             Back to{' '}
-            <Link component={RouterLink} to="/login" color="primary.light">Sign In</Link>
+            <Link component={RouterLink} to="/login" sx={{ color: '#714B67', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>Sign In</Link>
           </Typography>
         </CardContent>
       </Card>

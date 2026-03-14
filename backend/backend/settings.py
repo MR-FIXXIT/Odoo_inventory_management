@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+import certifi
+
+# Fix macOS Python SSL Cert issues dynamically for SMTP
+os.environ['SSL_CERT_FILE'] = certifi.where()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,9 +90,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "testodoo",
-        # "USER": "pauljames",
-        "USER": "postgres",
-        "PASSWORD": "admin",
+        "USER": "pauljames",
+        "PASSWORD": "",
         "HOST": "localhost",
         "PORT": "5432",
     }
