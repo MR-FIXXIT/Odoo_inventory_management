@@ -17,7 +17,8 @@ import {
   Person as ProfilIcon,
   Logout as LogoutIcon,
   ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon
+  Menu as MenuIcon,
+  Category as CategoryIcon
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -43,6 +44,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }) => {
     { label: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
     { type: 'divider' },
     { label: 'Products', path: '/products', icon: <ProductIcon /> },
+    { label: 'Categories', path: '/categories', icon: <CategoryIcon /> },
     { type: 'divider' },
     { label: 'Receipts', path: '/operations/receipts', icon: <ReceiptIcon /> },
     { label: 'Deliveries', path: '/operations/deliveries', icon: <DeliveryIcon /> },

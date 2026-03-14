@@ -111,7 +111,6 @@ const ProductFormPage = () => {
              required
              value={formData.name}
              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-             placeholder="e.g. Desk Chair"
              InputProps={{
                disableUnderline: true,
                sx: { fontSize: '2rem', fontWeight: 700, color: '#212529' }

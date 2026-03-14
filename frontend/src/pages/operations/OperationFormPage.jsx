@@ -254,14 +254,20 @@ const OperationFormPage = ({ opType, title }) => {
                   <TextField
                     select
                     fullWidth
-                    label="Source Location"
+                    label={opType === 'ADJUSTMENT' ? 'Location' : 'Source Location'}
                     value={formData.source_location}
-                    onChange={e => setFormData({ ...formData, source_location: e.target.value })}
+                    onChange={e => setFormData({ 
+                      ...formData, 
+                      source_location: e.target.value,
+                      destination_location: opType === 'ADJUSTMENT' ? e.target.value : formData.destination_location
+                    })}
                     disabled={!isEditable}
-                    required={opType === 'DELIVERY'}
+                    required={opType === 'DELIVERY' || opType === 'ADJUSTMENT'}
                     size="small"
+                    InputLabelProps={{ shrink: true }}
+                    SelectProps={{ displayEmpty: true }}
                   >
-                    <MenuItem value=""><em>None</em></MenuItem>
+                    <MenuItem value="" disabled><em>Select Location...</em></MenuItem>
                     {locations.map(loc => (
                       <MenuItem key={loc.id} value={loc.id}>
                         {loc.warehouse_name} / {loc.name}
@@ -274,8 +280,8 @@ const OperationFormPage = ({ opType, title }) => {
 
             <Grid item xs={12} md={6}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                {/* Destination Location - Shown normally unless it's a transfer */}
-                {opType !== 'DELIVERY' && opType !== 'INTERNAL' && (
+                {/* Destination Location - Shown normally unless it's a transfer or adjustment */}
+                {opType !== 'DELIVERY' && opType !== 'INTERNAL' && opType !== 'ADJUSTMENT' && (
                   <TextField
                     select
                     fullWidth
@@ -285,8 +291,10 @@ const OperationFormPage = ({ opType, title }) => {
                     disabled={!isEditable}
                     required={opType === 'RECEIPT'}
                     size="small"
+                    InputLabelProps={{ shrink: true }}
+                    SelectProps={{ displayEmpty: true }}
                   >
-                    <MenuItem value=""><em>None</em></MenuItem>
+                    <MenuItem value="" disabled><em>Select Location...</em></MenuItem>
                     {locations.map(loc => (
                       <MenuItem key={loc.id} value={loc.id}>
                         {loc.warehouse_name} / {loc.name}
@@ -308,7 +316,16 @@ const OperationFormPage = ({ opType, title }) => {
                       required
                       size="small"
                       sx={{ mb: 2 }}
-                    />
+                      InputLabelProps={{ shrink: true }}
+                      SelectProps={{ displayEmpty: true }}
+                    >
+                      <MenuItem value="" disabled><em>Select Source...</em></MenuItem>
+                      {locations.map(loc => (
+                        <MenuItem key={loc.id} value={loc.id}>
+                          {loc.warehouse_name} / {loc.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <Box sx={{ textAlign: 'center', color: '#adb5bd', my: -1 }}>
                       ▼
                     </Box>
@@ -321,7 +338,16 @@ const OperationFormPage = ({ opType, title }) => {
                       disabled={!isEditable}
                       required
                       size="small"
-                    />
+                      InputLabelProps={{ shrink: true }}
+                      SelectProps={{ displayEmpty: true }}
+                    >
+                      <MenuItem value="" disabled><em>Select Destination...</em></MenuItem>
+                      {locations.map(loc => (
+                        <MenuItem key={loc.id} value={loc.id}>
+                          {loc.warehouse_name} / {loc.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   </>
                 )}
               </Box>
@@ -341,8 +367,8 @@ const OperationFormPage = ({ opType, title }) => {
             <TableHead>
               <TableRow>
                 <TableCell>Product</TableCell>
-                <TableCell width="20%">Demand</TableCell>
-                <TableCell width="20%">Done</TableCell>
+                <TableCell width="20%">{opType === 'ADJUSTMENT' ? 'Theoretical Qty' : 'Demand'}</TableCell>
+                <TableCell width="20%">{opType === 'ADJUSTMENT' ? 'Counted Qty' : 'Done'}</TableCell>
                 <TableCell width={80}></TableCell>
               </TableRow>
             </TableHead>
