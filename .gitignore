@@ -1,0 +1,45 @@
+# General
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+
+# Frontend (Node / React / Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.eslintcache
+frontend/coverage/
+
+# Backend (Python / Django)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+backend/venv/
+backend/env/
+venv/
+env/
+ENV/
+
+backend/db.sqlite3
+backend/db.sqlite3-journal
+backend/media/
+backend/staticfiles/
+
+backend/.pytest_cache/
+backend/htmlcov/
+backend/.coverage
+backend/coverage.xml
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
