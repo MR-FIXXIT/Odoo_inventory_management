@@ -85,8 +85,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "testodoo",
-        "USER": "pauljames",
-        "PASSWORD": "",
+        # "USER": "pauljames",
+        "USER": "postgres",
+        "PASSWORD": "admin",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -134,8 +135,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # Use console for local dev (prints to terminal)
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # Uncomment for production
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

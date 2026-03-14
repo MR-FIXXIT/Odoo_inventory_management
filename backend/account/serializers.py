@@ -3,11 +3,9 @@ from rest_framework import serializers
 from .models import CustomUser, OTP
 from django.conf import settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer, TokenVerifySerializer
-from rest_framework_simplejwt.exceptions import InvalidToken
 from django.contrib.auth import get_user_model, password_validation
 from django.core.exceptions import ValidationError as DjangoValidationError
 from .email import send_templated_email
-from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
 User = get_user_model()
@@ -91,21 +89,33 @@ class PasswordResetRequestSerializer(serializers.Serializer):
             self.user = None
         return value
 
+    def get_user(self):
+        return getattr(self, 'user', None)
+
 class PasswordResetConfirmSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    otp = serializers.CharField(max_length=6)
+    otp = serializers.CharField(max_length=6, min_length=6)
     new_password = serializers.CharField(write_only=True, required=True, min_length=8, style={'input_type': 'password'})
     re_new_password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
 
     def validate(self, data):
         if data['new_password'] != data['re_new_password']:
             raise serializers.ValidationError({"re_new_password": "New passwords must match."})
+
+        if not data['otp'].isdigit():
+            raise serializers.ValidationError({"otp": "OTP must be a 6-digit number."})
         
         try:
             user = CustomUser.objects.get(email__iexact=data['email'])
             data['user'] = user
         except CustomUser.DoesNotExist:
-            raise serializers.ValidationError({"email": "User with this email not found."})
+            raise serializers.ValidationError({"detail": "Invalid OTP reset request."})
+
+        otp_instance = OTP.objects.filter(user=user, otp_code=data['otp']).first()
+        if not otp_instance or not otp_instance.is_valid():
+            raise serializers.ValidationError({"detail": "Invalid or expired OTP."})
+
+        data['otp_instance'] = otp_instance
 
         try:
             password_validation.validate_password(data['new_password'], user=user)
