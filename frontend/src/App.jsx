@@ -18,6 +18,7 @@ import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import ProductsPage from './pages/inventory/ProductsPage';
 import ProductFormPage from './pages/inventory/ProductFormPage';
+import CategoriesPage from './pages/inventory/CategoriesPage';
 import WarehousesPage from './pages/settings/WarehousesPage';
 import OperationsListPage from './pages/operations/OperationsListPage';
 import OperationFormPage from './pages/operations/OperationFormPage';
@@ -40,6 +41,7 @@ const AppRoutes = () => {
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:id" element={<ProductFormPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
         <Route path="operations/receipts" element={<OperationsListPage opType="RECEIPT" title="Receipts" />} />
         <Route path="operations/receipts/new" element={<OperationFormPage opType="RECEIPT" title="Receipts" />} />
         <Route path="operations/receipts/:id" element={<OperationFormPage opType="RECEIPT" title="Receipts" />} />
