@@ -113,15 +113,25 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ---
 
-## Application Workflow
+## 📋 Application Workflow
 
-The application follows a logical manufacturing flow:
+**Product Setup → Define SKUs & Reorder Rules**  
+└── Create products with categories, UOM, reorder levels  
 
-1.  **Setup:** The **Admin** creates users. The **Inventory Manager** defines Products and their Bills of Material (BOMs).
-2.  **Planning:** The **Manufacturing Manager** creates a Manufacturing Order (MO) for a specific product and quantity.
-3.  **Execution:** The system generates Work Orders (WOs) from the MO. The **Operator** on the shop floor views and completes their assigned WOs.
-4.  **Tracking:** As WOs are completed, inventory is automatically updated in the Stock Ledger, and the MO status progresses.
-5.  **Reporting:** The **Admin/Business Owner** views high-level KPIs on the main dashboard.
+**Receive Goods → Stock +Qty (Receipt)**  
+└── Vendor delivery → Automatic stock increase  
+
+**Internal Move → Location Change (Transfer)**  
+└── Warehouse A → Warehouse B → Audit trail logged  
+
+**Ship Goods → Stock -Qty (Delivery)**  
+└── Pick → Pack → Validate → Stock automatically reduced  
+
+**Physical Count → Adjust Differences**  
+└── Counted vs Recorded → Automatic adjustment logged  
+
+**Monitor → Real-time Dashboard KPIs**  
+└── Low stock alerts, pending operations, stock levels
 
 ---
 
