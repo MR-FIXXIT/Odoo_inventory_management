@@ -7,8 +7,12 @@ import {
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
 import API from '../../api/axiosInstance';
+import { useAuth } from '../../contexts/AuthContext';
 
 const CategoriesPage = () => {
+  const { user } = useAuth();
+  const isManager = user?.role === 'inventory_manager';
+  
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -78,9 +82,11 @@ const CategoriesPage = () => {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" fontWeight="bold">Product Categories</Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleOpen()}>
-          New Category
-        </Button>
+        {isManager && (
+          <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleOpen()}>
+            New Category
+          </Button>
+        )}
       </Box>
 
       <TableContainer component={Paper}>
@@ -98,12 +104,16 @@ const CategoriesPage = () => {
                 <TableCell sx={{ fontWeight: 500 }}>{cat.name}</TableCell>
                 <TableCell>{cat.description || '-'}</TableCell>
                 <TableCell align="right">
-                  <IconButton size="small" onClick={() => handleOpen(cat)} color="primary">
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton size="small" onClick={() => handleDelete(cat.id)} color="error">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
+                  {isManager && (
+                    <>
+                      <IconButton size="small" onClick={() => handleOpen(cat)} color="primary">
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" onClick={() => handleDelete(cat.id)} color="error">
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
